@@ -27,15 +27,15 @@ func (e *HTTPError) ResponseBody() ([]byte, error) {
 }
 
 func (e *HTTPError) ResponseHeaders() (int, map[string]string) {
-	return e.StatusCode, map[string]string{
+	return e.StatusCode, map[string]string {
 		"Content-Type": "application/json; charset=utf-8",
 	}
 }
 
-func NewHTTPError(err error, status int, detail string) error {
+func NewHTTPError(err error, status int, message string) error {
 	return &HTTPError{
 		Cause:  err,
-		Message: detail,
+		Message: message,
 		StatusCode: status,
 	}
 }
