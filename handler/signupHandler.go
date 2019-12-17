@@ -6,5 +6,5 @@ import (
 )
 
 func SignUpHandler( w http.ResponseWriter, r *http.Request) error {
-	return util.NewHTTPError (nil, 206, "testing 123...")
+	return util.NewHTTPError (nil, http.StatusCreated, "testing 123...")
 }

@@ -22,14 +22,14 @@ func (hw ErrorHandlerWrapper) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 
 	clientError, ok := err.(ClientError)
 	if !ok {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	body, err := clientError.ResponseBody()
 	if err != nil {
 		log.Printf("An error accured: %v", err)
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
@@ -41,5 +41,6 @@ func (hw ErrorHandlerWrapper) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 	w.WriteHeader(status)
 	_, e := w.Write(body); if e != nil {
 		log.Printf("An error accured: %v", e)
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 }
