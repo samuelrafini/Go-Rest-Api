@@ -3,7 +3,7 @@ package middleware
 import (
 	"log"
 	"net/http"
-	)
+)
 
 type ClientError interface {
 	Error() string
