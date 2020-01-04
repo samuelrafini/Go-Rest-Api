@@ -5,10 +5,16 @@ import (
 	"fmt"
 )
 
+type CustomError interface {
+	Error() string
+	ResponseBody() ([]byte, error)
+	ResponseHeaders() (int, map[string]string)
+}
+
 type HTTPError struct {
-	Cause error `json:"-"`
-	Message string `json:"message"`
-	StatusCode int `json:"statusCode"`
+	Cause      error  `json:"-"`
+	Message    string `json:"message"`
+	StatusCode int    `json:"statusCode"`
 }
 
 func (e *HTTPError) Error() string {
@@ -27,15 +33,15 @@ func (e *HTTPError) ResponseBody() ([]byte, error) {
 }
 
 func (e *HTTPError) ResponseHeaders() (int, map[string]string) {
-	return e.StatusCode, map[string]string {
+	return e.StatusCode, map[string]string{
 		"Content-Type": "application/json; charset=utf-8",
 	}
 }
 
 func NewHTTPError(err error, status int, message string) error {
 	return &HTTPError{
-		Cause:  err,
-		Message: message,
+		Cause:      err,
+		Message:    message,
 		StatusCode: status,
 	}
 }

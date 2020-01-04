@@ -4,8 +4,6 @@ import (
 	"database/sql"
 )
 
-
-
 func ConnectDB(connectionUrl string) (*sql.DB, error) {
 	var db *sql.DB
 

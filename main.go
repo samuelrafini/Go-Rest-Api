@@ -33,17 +33,16 @@ func main() {
 
 	db, err := util.ConnectDB(psqlInfo)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	defer db.Close()
-	fmt.Println(serverPort)
+	log.Println(serverPort)
 
 	r := mux.NewRouter()
-	//r.Use(middleware.AuthMiddleware)
-	r.Handle("/signup", middleware.ErrorHandlerWrapper(handler.SignUpHandler)).Methods("POST")
+	r.Handle("/signup", util.Handler{db, handler.SignUpHandler}).Methods("POST")
+	r.Use(middleware.ErrorHandlerMiddleware)
 
 	if err := http.ListenAndServe(serverPort, r); err != nil {
-		panic(err)
+		log.Println(err)
 	}
 }
-
